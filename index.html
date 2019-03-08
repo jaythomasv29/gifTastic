@@ -29,7 +29,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
@@ -70,10 +69,29 @@
           var img = $('<img>'); //creates new image tag
           //this is going to make a blank image
           //<img>
-          img.attr('src', response.data[i].images.fixed_width.url)
+          img.attr('src', response.data[i].images.fixed_width_still.url);
+          img.attr('state', 'still');
+          img.attr('data-animate', response.data[i].images.fixed_width.url).addClass('gif');
+          img.attr('data-still', response.data[i].images.fixed_width_still.url);
           //<img src="https://media1.giphy.com/media/67sjfw4d1k8wyygJJl/200w.gif?cid=e1bb72ff5c4a7bce396952775118f9b8">
           $('.gifSection').append(img); //appends 25 images
         }
+        $('.gif').on("click", function(){
+        console.log(this);
+          // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state = $(this).attr("data-state");
+      console.log(state);
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    })
       })
     }
   </script>
